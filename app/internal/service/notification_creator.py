@@ -16,7 +16,7 @@ class NotificationCreator:
         notifications = []
 
         for member in vendor.members:
-            notification = self._notification_handler.create_notification(member)
+            notification = self._notification_handler.create_notification(member, vendor.name)
             notifications.append(notification)
         return notifications
 
