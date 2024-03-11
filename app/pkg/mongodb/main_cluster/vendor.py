@@ -1,3 +1,4 @@
+from bson import ObjectId
 from motor_decorator import MotorDecoratorBaseDB, init_collection
 
 from pkg.mongodb.views import VendorDatabaseView, UserDatabaseView
@@ -10,8 +11,9 @@ class VendorDB(MotorDecoratorBaseDB):
     USERS = "USERS"
 
     @init_collection(VENDORS)
-    async def get_vendors(self) -> list[VendorDatabaseView]:
+    async def get_vendors(self, vendor_ids: list[ObjectId]) -> list[VendorDatabaseView]:
         condition = {
+            "_id": {"$in": vendor_ids},
             "KEY_NEW": {"$ne": None},
             "NEW_KEY_DISABLED": False,
             "SUPPLIER_ID": {
@@ -23,8 +25,8 @@ class VendorDB(MotorDecoratorBaseDB):
         return vendors
 
     @init_collection(USERS)
-    async def get_users(self) -> list[UserDatabaseView]:
-        condition = {}
+    async def get_users(self, vendor_ids: list[ObjectId]) -> list[UserDatabaseView]:
+        condition: dict = {"VENDOR_ID": {"$in": vendor_ids}}
         projection = UserDatabaseView.projection()
         users = await self.controller.do_find_many(condition, projection, UserDatabaseView)
         return users
