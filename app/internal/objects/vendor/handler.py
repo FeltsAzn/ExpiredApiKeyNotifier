@@ -11,8 +11,9 @@ class VendorHandler:
     _repository = VendorRepository()
 
     async def get_vendors(self) -> list[VendorModel]:
-        vendor_db_views = await self._repository.get_vendors()
-        user_db_views = await self._repository.get_users()
+        vendors_ids = await self._repository.get_premium_vendor_ids()
+        vendor_db_views = await self._repository.get_vendors(vendors_ids)
+        user_db_views = await self._repository.get_users(vendors_ids)
         filtered_user_db_views = await self._filter_users(user_db_views)
         specified_vendor_db_views = self._set_members_to_vendors(vendor_db_views, filtered_user_db_views)
         models = [self._fabric.create_model_from_db_view(db_view) for db_view in specified_vendor_db_views]

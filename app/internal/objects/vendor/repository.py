@@ -1,6 +1,8 @@
 import asyncio
 
-from pkg.mongodb.dbs import VendorDB, UserDB
+from bson import ObjectId
+
+from pkg.mongodb.dbs import VendorDB, UserDB, SubscriptionDB
 from pkg.mongodb.views import VendorDatabaseView, UserDatabaseView
 from pkg.network import WildBerriesController
 from utils import log
@@ -8,6 +10,7 @@ from .model import VendorModel
 
 
 class VendorRepository:
+    _subscription_db = SubscriptionDB()
     _vendor_db = VendorDB()
     _user_db = UserDB()
     _network = WildBerriesController()
@@ -15,13 +18,18 @@ class VendorRepository:
     def __init__(self) -> None:
         self._semaphore = asyncio.Semaphore(100)
 
-    async def get_vendors(self) -> list[VendorDatabaseView]:
-        vendors = await self._vendor_db.get_vendors()
+    async def get_premium_vendor_ids(self) -> list[ObjectId]:
+        vendors = await self._subscription_db.find_active_subscriptions()
+        log.debug(f"Received active subs from Subscription database: {len(vendors)}")
+        return vendors
+
+    async def get_vendors(self, vendor_ids: list[ObjectId]) -> list[VendorDatabaseView]:
+        vendors = await self._vendor_db.get_vendors(vendor_ids)
         log.debug(f"Received raw vendors from Vendor database: {len(vendors)}")
         return vendors
 
-    async def get_users(self) -> list[UserDatabaseView]:
-        users = await self._vendor_db.get_users()
+    async def get_users(self, vendor_ids: list[ObjectId]) -> list[UserDatabaseView]:
+        users = await self._vendor_db.get_users(vendor_ids)
         log.debug(f"Received raw users from Vendor database: {len(users)}")
         return users
 
