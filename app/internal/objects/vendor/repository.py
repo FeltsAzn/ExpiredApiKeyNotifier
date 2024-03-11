@@ -15,12 +15,12 @@ class VendorRepository:
 
     async def get_vendors(self) -> list[VendorDatabaseView]:
         vendors = await self._vendor_db.get_vendors()
-        log.info("Received raw vendors from Vendor database")
+        log.debug(f"Received raw vendors from Vendor database: {len(vendors)}")
         return vendors
 
     async def get_users(self) -> list[UserDatabaseView]:
         users = await self._vendor_db.get_users()
-        log.info("Received raw users from Vendor database")
+        log.debug(f"Received raw users from Vendor database: {len(users)}")
         return users
 
     async def user_is_blocked(self, user: UserDatabaseView) -> UserDatabaseView:
