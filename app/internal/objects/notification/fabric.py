@@ -17,6 +17,7 @@ class NotificationFabric:
             main=None,
             pin=True,
             status="prepared",
+            is_system=True,
             media_type="",
             media="",
             keyboard="",
@@ -53,6 +54,7 @@ class NotificationFabric:
             main=converted_main,
             pin=model.pin,
             status=model.status,
+            is_system=model.is_system,
             media_type=model.media_type,
             media=model.media,
             keyboard=model.keyboard

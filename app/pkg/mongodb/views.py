@@ -36,6 +36,7 @@ class NotificationDatabaseView(MotorDecoratorAbstractView):
     message: str
     main: ObjectId | None = None
     pin: bool
+    is_system: bool
     status: str
     media_type: str
     media: str
@@ -57,11 +58,12 @@ class NotificationDatabaseView(MotorDecoratorAbstractView):
             "media_type": self.media_type,
             "media": self.media,
             "keyboard": self.keyboard,
-            "STATUS": self.status
+            "STATUS": self.status,
+            "SYSTEM": self.is_system
         }
 
     def to_history(self) -> dict:
-        assert self.message is not None
+        assert self.main is not None
         return {
             "CREATED": self.created,
             "CHAT": self.chat_id,
@@ -71,5 +73,6 @@ class NotificationDatabaseView(MotorDecoratorAbstractView):
             "media_type": self.media_type,
             "media": self.media,
             "keyboard": self.keyboard,
-            "STATUS": self.status
+            "STATUS": self.status,
+            "SYSTEM": self.is_system
         }
