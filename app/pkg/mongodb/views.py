@@ -8,6 +8,7 @@ from pydantic import Field
 
 class VendorDatabaseView(MotorDecoratorAbstractView):
     id: ObjectId
+    NAME: str
     SUPPLIER_ID: int
     KEY_NEW: str
     MEMBERS: list[int] = Field(default_factory=list)
