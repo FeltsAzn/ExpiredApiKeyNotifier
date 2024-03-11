@@ -7,8 +7,8 @@ class NotificationHandler:
     _fabric = NotificationFabric()
     _repository = NotificationRepository()
 
-    def create_notification(self, chat_id: int) -> NotificationModel:
-        model = self._fabric.create_model(chat_id)
+    def create_notification(self, chat_id: int, vendor_name: str) -> NotificationModel:
+        model = self._fabric.create_model(chat_id, vendor_name)
         return model
 
     async def record_notification(self, model: NotificationModel) -> NotificationModel | None:
