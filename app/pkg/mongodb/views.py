@@ -38,9 +38,6 @@ class NotificationDatabaseView(MotorDecoratorAbstractView):
     pin: bool
     is_system: bool
     status: str
-    media_type: str
-    media: str
-    keyboard: str
 
     @classmethod
     def from_db(cls, data: dict) -> Self:
@@ -55,9 +52,6 @@ class NotificationDatabaseView(MotorDecoratorAbstractView):
             "CHAT": self.chat_id,
             "MESSAGE": self.message,
             "pin": self.pin,
-            "media_type": self.media_type,
-            "media": self.media,
-            "keyboard": self.keyboard,
             "STATUS": self.status,
             "SYSTEM": self.is_system
         }
@@ -70,9 +64,6 @@ class NotificationDatabaseView(MotorDecoratorAbstractView):
             "MESSAGE": self.message,
             "MAIN": self.main,
             "pin": self.pin,
-            "media_type": self.media_type,
-            "media": self.media,
-            "keyboard": self.keyboard,
             "STATUS": self.status,
             "SYSTEM": self.is_system
         }

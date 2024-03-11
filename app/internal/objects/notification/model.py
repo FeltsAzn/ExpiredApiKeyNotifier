@@ -12,6 +12,3 @@ class NotificationModel(CoreModel):
     pin: bool
     status: str
     is_system: bool
-    media_type: str
-    media: str
-    keyboard: str

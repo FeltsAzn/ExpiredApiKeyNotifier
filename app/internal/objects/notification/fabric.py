@@ -17,10 +17,7 @@ class NotificationFabric:
             main=None,
             pin=True,
             status="prepared",
-            is_system=True,
-            media_type="",
-            media="",
-            keyboard="",
+            is_system=True
         )
 
     @staticmethod
@@ -55,9 +52,6 @@ class NotificationFabric:
             pin=model.pin,
             status=model.status,
             is_system=model.is_system,
-            media_type=model.media_type,
-            media=model.media,
-            keyboard=model.keyboard
         )
 
     @staticmethod
@@ -71,7 +65,5 @@ class NotificationFabric:
             main=converted_main,
             pin=db_view.pin,
             status=db_view.status,
-            media_type=db_view.media_type,
-            media=db_view.media,
-            keyboard=db_view.keyboard
+            is_system=db_view.is_system
         )
