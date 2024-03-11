@@ -11,7 +11,9 @@ class VendorRepository:
     _vendor_db = VendorDB()
     _user_db = UserDB()
     _network = WildBerriesController()
-    _semaphore = asyncio.Semaphore(100)
+
+    def __init__(self) -> None:
+        self._semaphore = asyncio.Semaphore(100)
 
     async def get_vendors(self) -> list[VendorDatabaseView]:
         vendors = await self._vendor_db.get_vendors()
