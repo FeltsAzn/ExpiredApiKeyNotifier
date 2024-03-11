@@ -56,3 +56,6 @@ local-logs:
 
 ls:
 	@docker ps
+
+exec:
+	@docker exec -it expired_key_notifier_worker bash
