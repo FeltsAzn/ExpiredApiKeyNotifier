@@ -7,18 +7,17 @@ class NotificationCreator:
     def __init__(self) -> None:
         self._notification_handler = NotificationHandler()
 
-    async def handle_vendors_with_expired_api_key(self, vendors: list[VendorModel]) -> int:
-        notifications = await self._create_notifications(vendors)
+    async def handle_vendors_with_expired_api_key(self, vendor: VendorModel) -> int:
+        notifications = await self._create_notifications(vendor)
         notifications_amount = await self._record_notifications(notifications)
         return notifications_amount
 
-    async def _create_notifications(self, vendors: list[VendorModel]) -> list[NotificationModel]:
+    async def _create_notifications(self, vendor: VendorModel) -> list[NotificationModel]:
         notifications = []
 
-        for vendor in vendors:
-            for member in vendor.members:
-                notification = self._notification_handler.create_notification(member)
-                notifications.append(notification)
+        for member in vendor.members:
+            notification = self._notification_handler.create_notification(member)
+            notifications.append(notification)
         return notifications
 
     async def _record_notifications(self, notifications: list[NotificationModel]) -> int:
