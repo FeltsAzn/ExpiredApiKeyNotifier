@@ -42,3 +42,8 @@ class VendorRepository:
         api_key = vendor.api_key
         response = await self._network.validate_api_key(api_key)
         return response
+
+    async def disable_api_key(self, vendor: VendorModel) -> bool:
+        record_id = ObjectId(vendor.id)
+        response = await self._vendor_db.disable_new_key(record_id)
+        return response

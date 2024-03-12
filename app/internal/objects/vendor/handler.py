@@ -41,3 +41,7 @@ class VendorHandler:
     async def check_vendor_api_key(self, model: VendorModel) -> bool | None:
         response = await self._repository.validate_api_key(model)
         return response
+
+    async def disable_api_key(self, model: VendorModel) -> bool:
+        response = await self._repository.disable_api_key(model)
+        return response
