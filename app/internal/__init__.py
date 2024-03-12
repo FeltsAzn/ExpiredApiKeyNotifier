@@ -38,7 +38,7 @@ class ExpiredApiKeyNotifierApplication:
                 continue
             amount += 1
             await self._create_notifications_for_vendor(vendor_with_expired_key)
-
+            await self._disable_api_key(vendor_with_expired_key)
         log.info(f"Finished validating vendors api keys. Vendors with expired keys: {amount}")
 
     async def _validate_vendor_api_key(self, vendor: VendorModel) -> VendorModel | None:
@@ -53,3 +53,8 @@ class ExpiredApiKeyNotifierApplication:
     async def _create_notifications_for_vendor(self, vendor: VendorModel) -> None:
         notification_amount = await self._notification_creator.handle_vendors_with_expired_api_key(vendor)
         log.info(f"Created notifications: {notification_amount}")
+
+    async def _disable_api_key(self, vendor: VendorModel) -> None:
+        response = await self._vendor_handler.disable_api_key(vendor)
+        log.info(f"New api key disabled for '{vendor.name}({vendor.supplier_id}':"
+                 f" {'successful' if response else 'unsuccessful'}")
