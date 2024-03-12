@@ -13,6 +13,7 @@ services:
       MONGO_PORT_MAIN: "${MONGO_PORT_MAIN}"
       MONGO_USER_MAIN: "${MONGO_USER_MAIN}"
       MONGO_PASSWORD_MAIN: "${MONGO_PASSWORD_MAIN}"
+      PROD: "${PROD}"
     volumes:
       - "./cron/cron.log:/var/log/cron.log"
       - "/etc/timezone:/etc/timezone:ro"
