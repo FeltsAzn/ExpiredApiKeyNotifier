@@ -30,3 +30,10 @@ class VendorDB(MotorDecoratorBaseDB):
         projection = UserDatabaseView.projection()
         users = await self.controller.do_find_many(condition, projection, UserDatabaseView)
         return users
+
+    @init_collection(VENDORS)
+    async def disable_new_key(self, record_id: ObjectId) -> bool:
+        condition: dict = {"_id": record_id}
+        update = {"$set": {"NEW_KEY_DISABLED": True}}
+        response = await self.controller.do_update_one(condition, update)
+        return bool(response)
