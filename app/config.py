@@ -8,25 +8,19 @@ dotenv_path = os.path.join(os.path.dirname(__file__), "../local/.env")
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
+PROD = os.environ.get("PROD")
+
 # Mongo
 MONGO_HOST_MAIN = os.getenv("MONGO_HOST_MAIN")
-MONGO_PORT_MAIN = int(os.getenv("MONGO_PORT_MAIN"))
+MONGO_PORT_MAIN = os.getenv("MONGO_PORT_MAIN")
 MONGO_USER_MAIN = os.getenv("MONGO_USER_MAIN")
 MONGO_PASSWORD_MAIN = os.getenv("MONGO_PASSWORD_MAIN")
 
-MONGO_HOST_LOCAL = os.getenv("MONGO_HOST_LOCAL")
-MONGO_PORT_LOCAL = int(os.getenv("MONGO_PORT_LOCAL"))
-MONGO_USER_LOCAL = os.getenv("MONGO_USER_LOCAL")
-MONGO_PASSWORD_LOCAL = os.getenv("MONGO_PASSWORD_LOCAL")
-
-
-def init_db_clusters() -> None:
-    add_cluster("MAIN", MONGO_USER_MAIN, MONGO_PASSWORD_MAIN, MONGO_HOST_MAIN, MONGO_PORT_MAIN)
-    add_cluster("LOCAL", MONGO_USER_LOCAL, MONGO_PASSWORD_LOCAL, MONGO_HOST_LOCAL, MONGO_PORT_LOCAL)
-    profile_clusters(ping=True)
-
-
-init_db_clusters()
+if PROD == "OFF":
+    MONGO_HOST_LOCAL = os.getenv("MONGO_HOST_LOCAL")
+    MONGO_PORT_LOCAL = os.getenv("MONGO_PORT_LOCAL")
+    MONGO_USER_LOCAL = os.getenv("MONGO_USER_LOCAL")
+    MONGO_PASSWORD_LOCAL = os.getenv("MONGO_PASSWORD_LOCAL")
 
 
 def check_variables() -> None:
@@ -44,6 +38,15 @@ def check_variables() -> None:
 
 check_variables()
 
+
+def init_db_clusters() -> None:
+    add_cluster("MAIN", MONGO_USER_MAIN, MONGO_PASSWORD_MAIN, MONGO_HOST_MAIN, MONGO_PORT_MAIN)
+    if PROD == "OFF":
+        add_cluster("LOCAL", MONGO_USER_LOCAL, MONGO_PASSWORD_LOCAL, MONGO_HOST_LOCAL, MONGO_PORT_LOCAL)
+    profile_clusters(ping=True)
+
+
+init_db_clusters()
 PROXY_ON = True
 
 PROXY_LIST = [
