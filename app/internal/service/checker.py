@@ -11,6 +11,6 @@ class ApiKeyChecker:
 
     async def _check_vendor_api_key(self, vendor: VendorModel) -> VendorModel | None:
         api_key_correct = await self._vendor_handler.check_vendor_api_key(vendor)
-        if api_key_correct is True:
-            return None
-        return vendor
+        if api_key_correct is False:
+            return vendor
+        return None
