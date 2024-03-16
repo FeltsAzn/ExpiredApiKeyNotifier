@@ -24,6 +24,7 @@ def retry(init_retries: int = 3) -> Any:
                     log.debug(f"retry={retries}, func={func.__name__}, type{type(ex)} "
                               f"description={ex}, args={args}, kwargs={kwargs}")
                     await asyncio.sleep(random.choice(delay_range))
+                    retries -= 1
                 except ConnectionError as ex:
                     log.debug(f"retry={retries}, func={func.__name__}, type{type(ex)} "
                               f"description={ex}, args={args}, kwargs={kwargs}")
@@ -63,7 +64,7 @@ def retry(init_retries: int = 3) -> Any:
                         error_message = f"All retries is finished. " \
                                         f"Connection denied. args={args}, kwargs={kwargs}"
                         log.exception(error_message)
-                        return []
+                        return None
 
         return wrap
 
