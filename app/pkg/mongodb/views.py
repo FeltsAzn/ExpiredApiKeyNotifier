@@ -48,22 +48,22 @@ class NotificationDatabaseView(MotorDecoratorAbstractView):
 
     def to_send(self) -> dict:
         return {
-            "CREATED": self.created,
-            "CHAT": self.chat_id,
-            "MESSAGE": self.message,
+            "created": self.created,
+            "chat_id": self.chat_id,
+            "message": self.message,
             "pin": self.pin,
-            "STATUS": self.status,
-            "SYSTEM": self.is_system
+            "status": self.status,
+            "system": self.is_system
         }
 
     def to_history(self) -> dict:
         assert self.main is not None
         return {
-            "CREATED": self.created,
-            "CHAT": self.chat_id,
-            "MESSAGE": self.message,
-            "MAIN": self.main,
+            "created": self.created,
+            "chat_id": self.chat_id,
+            "message": self.message,
+            "main": self.main,
             "pin": self.pin,
-            "STATUS": self.status,
-            "SYSTEM": self.is_system
+            "status": self.status,
+            "system": self.is_system
         }
